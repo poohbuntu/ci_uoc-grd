@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 		<title>UOC GRADUATE</title>
 	</head>
 	<body>
@@ -108,10 +109,37 @@
 						</div>
 
 						<div class="form-group">
+							<label for="province">จังหวัด</label>
+							<select class="form-control" name="province" required>
+								<?php foreach($provinces->result() as $province){ ?>
+        					<option value="<?php echo $province->PROVINCE_ID; ?>"><?php echo $province->PROVINCE_NAME_TH; ?></option>
+    						<?php } ?>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="district">อำเภอ/เขต</label>
+							<select class="form-control" name="district" required>
+								<?php foreach($districts->result() as $district){ ?>
+        					<option value="<?php echo $district->DISTRICT_ID; ?>"><?php echo $district->DISTRICT_NAME_TH; ?></option>
+    						<?php } ?>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="sub_district_id">ตำบล/แขวง</label>
+							<select class="form-control" name="sub_district_id" required>
+								<?php foreach($sub_districts->result() as $sub_district){ ?>
+        					<option value="<?php echo $sub_district->SUB_DISTRICT_ID; ?>"><?php echo $sub_district->SUB_DISTRICT_NAME_TH; ?></option>
+    						<?php } ?>
+							</select>
+						</div>
+<!--
+						<div class="form-group">
 							<label for="sub_district_id">รหัสจังหวัดอำเภอตำบล</label>
 							<input class="form-control" type="text" name="sub_district_id" value="" maxlength="6" placeholder="รหัสจังหวัดอำเภอตำบล" required>
 						</div>
-
+-->
 						<div class="form-group">
 							<label for="telephone">หมายเลขโทรศัพท์</label>
 							<input class="form-control" type="text" name="telephone" value="" maxlength="30" placeholder="หมายเลขโทรศัพท์" required>
@@ -194,5 +222,33 @@
 				</div>
 			</div>
 		</div>
+	<script type="text/javascript">
+	  jQuery(function($) {
+	      jQuery('body').on('change','#province',function(){
+	          jQuery.ajax({
+	              'type':'POST',
+	              'url':'http://localhost/ci_uoc-grd/index.php/uoc_grd/index',
+	              'cache':false,
+	              'data':{province:jQuery(this).val()},
+	              'success':function(html){
+	                  jQuery("#amphoe").html(html);
+	              }
+	          });
+	          return false;
+	      });
+	       jQuery('body').on('change','#amphoe',function(){
+	          jQuery.ajax({
+	              'type':'POST',
+	              'url':'http://localhost/ds-th/district.php',
+	              'cache':false,
+	              'data':{amphoe:jQuery(this).val()},
+	              'success':function(html){
+	                  jQuery("#district").html(html);
+	              }
+	          });
+	          return false;
+	      });
+	  });
+	</script>
 	</body>
 </html>
