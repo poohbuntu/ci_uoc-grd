@@ -110,7 +110,7 @@
 
 						<div class="form-group">
 							<label for="province">จังหวัด</label>
-							<select class="form-control" name="province" required>
+							<select class="form-control" name="province" id="province" required>
 								<?php foreach($provinces->result() as $province){ ?>
         					<option value="<?php echo $province->PROVINCE_ID; ?>"><?php echo $province->PROVINCE_NAME_TH; ?></option>
     						<?php } ?>
@@ -119,19 +119,15 @@
 
 						<div class="form-group">
 							<label for="district">อำเภอ/เขต</label>
-							<select class="form-control" name="district" required>
-								<?php foreach($districts->result() as $district){ ?>
-        					<option value="<?php echo $district->DISTRICT_ID; ?>"><?php echo $district->DISTRICT_NAME_TH; ?></option>
-    						<?php } ?>
+							<select class="form-control" name="district" id="district" required>
+        					<option value=" "></option>
 							</select>
 						</div>
 
 						<div class="form-group">
 							<label for="sub_district_id">ตำบล/แขวง</label>
-							<select class="form-control" name="sub_district_id" required>
-								<?php foreach($sub_districts->result() as $sub_district){ ?>
-        					<option value="<?php echo $sub_district->SUB_DISTRICT_ID; ?>"><?php echo $sub_district->SUB_DISTRICT_NAME_TH; ?></option>
-    						<?php } ?>
+							<select class="form-control" name="sub_district_id" id="sub_district_id" required>
+        					<option value=" "></option>
 							</select>
 						</div>
 <!--
@@ -227,23 +223,23 @@
 	      jQuery('body').on('change','#province',function(){
 	          jQuery.ajax({
 	              'type':'POST',
-	              'url':'http://localhost/ci_uoc-grd/index.php/uoc_grd/index',
+	              'url':'http://localhost/ci_uoc-grd/index.php/uoc_grd/get_district',
 	              'cache':false,
 	              'data':{province:jQuery(this).val()},
 	              'success':function(html){
-	                  jQuery("#amphoe").html(html);
+	                  jQuery("#district").html(html);
 	              }
 	          });
 	          return false;
 	      });
-	       jQuery('body').on('change','#amphoe',function(){
+	       jQuery('body').on('change','#district',function(){
 	          jQuery.ajax({
 	              'type':'POST',
-	              'url':'http://localhost/ds-th/district.php',
+	              'url':'http://localhost/ci_uoc-grd/index.php/uoc_grd/get_sub_district_id',
 	              'cache':false,
-	              'data':{amphoe:jQuery(this).val()},
+	              'data':{district:jQuery(this).val()},
 	              'success':function(html){
-	                  jQuery("#district").html(html);
+	                  jQuery("#sub_district_id").html(html);
 	              }
 	          });
 	          return false;
